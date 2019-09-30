@@ -1,18 +1,41 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.UIElements;
 
 public class LoadVideo : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public MediaPlayerCtrl easyMovieTexture;
+
+    private void Awake()
     {
-        
+        easyMovieTexture.m_strFileName = "";
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnClick()
     {
-        
+        PickVideo();
+    }
+
+    void PickVideo()
+    {
+        NativeGallery.Permission permission = NativeGallery.GetVideoFromGallery((path) =>
+        {
+            if (path != null)
+            {
+                // Play picked video
+                PlayVideo("file://" + path);
+            }
+        },"Select Video");
+    }
+    /// <summary>
+    /// Play video
+    /// </summary>
+    /// <param name="path">video path</param>
+    void PlayVideo(string path)
+    {
+        easyMovieTexture.Load(path);
+        easyMovieTexture.Play();
     }
 }
