@@ -1,3 +1,6 @@
+## About
+Sample program that loads video from native gallery and plays it with EasyMovieTexture
+
 ## Usage
 
 1. Import EasyMovieTextrue from the asset store
