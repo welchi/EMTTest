@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.UIElements;
 
-public class LoadVideo : MonoBehaviour
+public class VideoController : MonoBehaviour
 {
     public MediaPlayerCtrl easyMovieTexture;
 
     private void Awake()
     {
         easyMovieTexture.m_strFileName = "";
+        easyMovieTexture.OnReady += PlayVideo;
     }
 
     public void OnClick()
@@ -18,24 +19,36 @@ public class LoadVideo : MonoBehaviour
         PickVideo();
     }
 
+    /// <summary>
+    /// Select video from native gallery
+    /// </summary>
+    /// <param name="path">video path</param>
     void PickVideo()
     {
         NativeGallery.Permission permission = NativeGallery.GetVideoFromGallery((path) =>
         {
             if (path != null)
             {
-                // Play picked video
-                PlayVideo("file://" + path);
+                // Load picked video
+                LoadVideo("file://" + path);
             }
         },"Select Video");
     }
     /// <summary>
-    /// Play video
+    /// Load video
     /// </summary>
     /// <param name="path">video path</param>
-    void PlayVideo(string path)
+    void LoadVideo(string path)
     {
         easyMovieTexture.Load(path);
+    }
+
+    /// <summary>
+    /// Play video
+    /// </summary>
+    void PlayVideo()
+    {
+        Debug.Log("Current State : " + easyMovieTexture.GetCurrentState());
         easyMovieTexture.Play();
     }
 }
